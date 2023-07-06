@@ -1,11 +1,8 @@
 function ucFirst(str) {
-  let ucLetter;
   if(str === ''){
-    ucLetter = '';
-    return ucLetter;
+    return '';
   } else {
-    ucLetter = str[0].toUpperCase();
-    return ucLetter + str.slice(1);
+    return str[0].toUpperCase() + str.slice(1);
   }
 }
 

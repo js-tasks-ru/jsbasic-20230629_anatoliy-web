@@ -3,9 +3,6 @@ function checkSpam(str) {
   let wordOne = '1xBet'.toLowerCase();
   let wordTwo = 'XXX'.toLowerCase();
 
-  if (string.includes(wordOne) || string.includes(wordTwo)){
-    return true;
-  } else {
-    return false;
-  }
+  return string.includes(wordOne) || string.includes(wordTwo)
+
 }
