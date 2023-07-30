@@ -39,7 +39,7 @@ export default class Carousel {
   #render(){
     this.elem = createElement(this.#template());
     const buttons = this.elem.querySelectorAll('.carousel__button');
-    document.addEventListener( 'DOMContentLoaded', this.#changeSlide)
+    this.#changeSlide()
 
     buttons.forEach(button => {
       button.addEventListener('click', this.#addProduct)
@@ -58,18 +58,19 @@ export default class Carousel {
 
   }
   #changeSlide = () => {
-    let arrowPrev = document.querySelector('.carousel__arrow_left'),
-        arrowNext = document.querySelector('.carousel__arrow_right'),
-        slideInner = document.querySelector('.carousel__inner'),
-        slideItems = Array.from(document.querySelectorAll('.carousel__slide')),
-        slideWidth = document.querySelector('.carousel__slide').offsetWidth,
+    let arrowPrev = this.elem.querySelector('.carousel__arrow_left'),
+        arrowNext = this.elem.querySelector('.carousel__arrow_right'),
+        slideInner = this.elem.querySelector('.carousel__inner'),
+        slideItems = Array.from(this.elem.querySelectorAll('.carousel__slide')),
+        slideWidth ,
         slideWidthTotal = 0;
     arrowPrev.style.display = 'none';
     slideInner.style.transform += `translateX(0px)`;
 
 
     arrowNext.addEventListener('click', () => {
-      slideWidthTotal += slideWidth;
+      slideWidth = this.elem.querySelector('.carousel__slide').offsetWidth;
+        slideWidthTotal += slideWidth;
       if(slideWidthTotal == slideWidth * (slideItems.length - 1)){
         arrowNext.style.display = 'none';
       }
@@ -80,6 +81,7 @@ export default class Carousel {
     })
 
     arrowPrev.addEventListener('click', () => {
+      slideWidth = this.elem.querySelector('.carousel__slide').offsetWidth;
       slideWidthTotal -= slideWidth;
       if(slideWidthTotal == slideWidth * (slideItems.length - 1) || slideWidthTotal == 0){
         arrowPrev.style.display = 'none';
