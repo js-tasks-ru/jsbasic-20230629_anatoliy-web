@@ -36,13 +36,11 @@ export default class ProductCard {
   }
 
   #addProduct = () => {
-
     const event = new CustomEvent("product-add", {
       detail: this.id,
       bubbles: true
     })
     this.elem.dispatchEvent(event)
-
   }
 
 }

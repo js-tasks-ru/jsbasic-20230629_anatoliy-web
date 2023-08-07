@@ -66,7 +66,7 @@ export default class UserTable {
   }
 
   #deleteRow = () =>{
-    let button = this.elem.querySelector('button');
+    let button = this.elem    .querySelector('button');
     button.closest('tr').remove();
   }
 

@@ -56,20 +56,20 @@ export default class Modal {
     modalBody.append(body)
   }
 
+  closeModal = (container) => {
+    this.elem.remove()
+    container.classList.remove('is-modal-open')
+  }
   close = () => {
     let bodyContainer = document.querySelector('body');
-    this.elem.remove()
-    bodyContainer.classList.remove('is-modal-open')
-
+    this.closeModal(bodyContainer)
   }
 
   #closeButton = () => {
     let buttonClose = this.elem.querySelector('.modal__close');
     let bodyContainer = document.querySelector('body');
     buttonClose.addEventListener('click', () => {
-      this.elem.remove()
-      bodyContainer.classList.remove('is-modal-open')
-
+      this.closeModal(bodyContainer)
     })
   }
 
