@@ -36,6 +36,7 @@ export default class RibbonMenu {
     this.elem = createElement(this.#template());
     const categories = this.elem.querySelectorAll('.ribbon__item');
     this.#changeCategories()
+    this.#scrollCategory()
     categories.forEach(category => {
       category.addEventListener('click', this.#selectCategory)
     })
@@ -46,55 +47,43 @@ export default class RibbonMenu {
     let arrowPrev = this.elem.querySelector('.ribbon__arrow_left'),
         arrowNext = this.elem.querySelector('.ribbon__arrow_right'),
         ribbonInner = this.elem.querySelector('.ribbon__inner'),
-        scrollCount = 350,
-        scrollWidth,
-        scrollLeft,
-        clientWidth,
-        scrollRight;
-        scrollLeft = ribbonInner.scrollLeft;
+        scrollCount = 350;
 
     arrowNext.classList.add('ribbon__arrow_visible')
     arrowPrev.classList.remove('ribbon__arrow_visible')
 
     arrowNext.addEventListener('click', () => {
-        scrollWidth = ribbonInner.scrollWidth,
-        scrollLeft = ribbonInner.scrollLeft,
-        clientWidth = ribbonInner.clientWidth;
+      ribbonInner.scrollBy(scrollCount, 0); //
+    })
+
+    arrowPrev.addEventListener('click', () => {
+      ribbonInner.scrollBy(-scrollCount, 0);
+    })
+  }
+
+  #scrollCategory = () => {
+    let arrowPrev = this.elem.querySelector('.ribbon__arrow_left'),
+      arrowNext = this.elem.querySelector('.ribbon__arrow_right'),
+      ribbonInner = this.elem.querySelector('.ribbon__inner');
       ribbonInner.addEventListener('scroll', function() {
-          scrollLeft = ribbonInner.scrollLeft
-          scrollRight = scrollWidth - scrollLeft - clientWidth;
+        let scrollLeft = ribbonInner.scrollLeft,
+            scrollWidth = ribbonInner.scrollWidth,
+            clientWidth = ribbonInner.clientWidth,
+            scrollRight = scrollWidth - scrollLeft - clientWidth;
         if(scrollLeft > 0){
           arrowPrev.classList.add('ribbon__arrow_visible')
+        }
+        if (scrollLeft ===  0 ){
+          arrowPrev.classList.remove('ribbon__arrow_visible')
         }
         if (scrollRight < 1){
           arrowNext.classList.remove('ribbon__arrow_visible')
         }
 
-      });
-      ribbonInner.scrollBy(scrollCount, 0); //
-    })
+    });
 
-    arrowPrev.addEventListener('click', () => {
-      scrollWidth = ribbonInner.scrollWidth,
-      clientWidth = ribbonInner.clientWidth;
-      ribbonInner.scrollBy(-350, 0);
-      ribbonInner.addEventListener('scroll', function() {
-        scrollLeft = ribbonInner.scrollLeft
-        scrollRight = scrollWidth - scrollLeft - clientWidth;
-        console.log('scrollLeft set', scrollLeft);
-        if(scrollLeft > 0){
-          arrowPrev.classList.add('ribbon__arrow_visible')
-        }
-
-        if (scrollLeft ===  0 ){
-          arrowPrev.classList.remove('ribbon__arrow_visible')
-
-        }
-
-      });
-
-    })
   }
+
   #selectCategory = (e) => {
     e.preventDefault();
     const categoryCurrent = e.currentTarget
