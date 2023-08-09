@@ -39,6 +39,36 @@ export default class CartIcon {
   }
 
   updatePosition() {
-    // ваш код ...
+    let currentScroll = document.documentElement.scrollTop,
+        containerWidth = document.querySelector('.container').offsetWidth,
+        // windowWidth = document.documentElement.clientWidth,
+        windowWidth = window.innerWidth,
+        iconWidth = document.querySelector('.cart-icon').offsetWidth,
+        left = ((windowWidth - containerWidth) / 2) + containerWidth;
+
+    if(windowWidth > 767){
+      if(this.elem.offsetWidth && this.elem.offsetHeight){
+        this.elem.style.zIndex = '1000'
+        // console.log('currentScroll', currentScroll);
+        // console.log('containerWidth', containerWidth);
+        // console.log('windowWidth', windowWidth);
+        // console.log('left', left);
+        // console.log('iconWidth', iconWidth);
+        if(currentScroll === 0){
+          this.elem.style.position = 'absolute'
+        }
+        if(this.elem.getBoundingClientRect().y <= 0){
+          this.elem.style.position = 'fixed'
+          this.elem.style.left = left + 20 + 'px'
+        }
+        if(windowWidth < (left + iconWidth + 30)) {
+          this.elem.style.left = 'auto'
+          this.elem.style.right = '10px'
+
+        }
+
+      }
+
+    }
   }
 }

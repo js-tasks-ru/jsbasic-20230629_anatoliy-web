@@ -77,8 +77,7 @@ export default class Modal {
     let bodyContainer = document.querySelector('body');
     document.addEventListener('keydown', (event) => {
       if (event.code === 'Escape') {
-        this.elem.remove()
-        bodyContainer.classList.remove('is-modal-open')
+        this.closeModal(bodyContainer)
       }
     });
 
