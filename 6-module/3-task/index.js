@@ -53,7 +53,6 @@ export default class Carousel {
       detail: slide.dataset.id,
       bubbles: true
     })
-    console.log('this', this);
     this.elem.dispatchEvent(event)
 
   }

@@ -66,7 +66,7 @@ export default class StepSlider {
     stepsSelect.forEach((step, index) => {
       if(index === value ){
         step.classList.add('slider__step-active');
-      }else {
+      } else {
         step.classList.remove('slider__step-active');
       }
     })
@@ -74,17 +74,16 @@ export default class StepSlider {
       detail: value, // значение 0, 1, 2, 3, 4
       bubbles: true // событие всплывает - это понадобится в дальнейшем
     })
-    console.log('value', value);
-
     this.elem.dispatchEvent(event)
   }
-  #onPointerDown = (event) => {
+  #onPointerDown = () => {
     let thumb = this.elem.querySelector('.slider__thumb')
     thumb.ondragstart = () => false;
-    thumb.setPointerCapture(event.pointerId);
+    this.elem.classList.add('slider_dragging')
+
+    // thumb.setPointerCapture(event.pointerId);
     thumb.addEventListener('pointermove', this.#onPointerMove)
     thumb.addEventListener('pointerup', this.#onPointerUp, { once: true })
-
   }
 
   #onPointerMove = (event) => {
@@ -96,26 +95,33 @@ export default class StepSlider {
         leftMove = event.clientX - this.elem.getBoundingClientRect().left,
         leftRelativeMove = leftMove / this.elem.offsetWidth,
         approximateValue = leftRelativeMove * segments,
+        stepsSelect = Array.from(this.elem.querySelectorAll('.slider__steps > span')),
         value = Math.round(approximateValue);
     thumb.style.touchAction = "none";
-
     this.elem.classList.add('slider_dragging')
-      if (leftRelativeMove < 0) {
-        leftRelativeMove = 0;
+    stepsSelect.forEach((step, index) => {
+      if(index === value ){
+        step.classList.add('slider__step-active');
+      }else {
+        step.classList.remove('slider__step-active');
       }
-      if (leftRelativeMove > 1) {
-        leftRelativeMove = 1;
-      }
-      let leftPercents = leftRelativeMove * 100;
-      thumb.style.left = `${leftPercents}%`;
-      progress.style.width = `${leftPercents}%`;
-      if (value < 0) {
-        value = 0;
-      }
-      if (value > segments) {
-        value = segments;
-      }
-      valueBlock.innerHTML = value
+    })
+    if (leftRelativeMove < 0) {
+      leftRelativeMove = 0;
+    }
+    if (leftRelativeMove > 1) {
+      leftRelativeMove = 1;
+    }
+    let leftPercents = leftRelativeMove * 100;
+    thumb.style.left = `${leftPercents}%`;
+    progress.style.width = `${leftPercents}%`;
+    if (value < 0) {
+      value = 0;
+    }
+    if (value > segments) {
+      value = segments;
+    }
+    valueBlock.innerHTML = value
   }
 
   #onPointerUp = (e) => {
@@ -132,7 +138,6 @@ export default class StepSlider {
       detail: value, // значение 0, 1, 2, 3, 4
       bubbles: true // событие всплывает - это понадобится в дальнейшем
     })
-    console.log('value 2', value);
 
     this.elem.dispatchEvent(event)
 
